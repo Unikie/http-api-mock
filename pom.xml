@@ -234,4 +234,11 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-mystes-maven</id>
+            <name>mystes-maven</name>
+            <url>https://api.bintray.com/maven/mystes/maven/http-api-mock/;publish=1</url>
+        </repository>
+    </distributionManagement>
 </project>

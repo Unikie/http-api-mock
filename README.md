@@ -93,6 +93,20 @@ Configuration below uses Jetty as the container. It should be possible to use ot
 </plugin>
 ```
 
+You also need to add this part to your pom.xml. Here we define the public maven repository where Http API mock will be fetched during build process.
+```xml
+<repositories>
+    <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>bintray-mystes-maven</id>
+        <name>bintray</name>
+        <url>http://dl.bintray.com/mystes/maven</url>
+    </repository>
+</repositories>
+```
+
 #### Step 2. Configure endpoints
 Endpoints are configured in `ws-mock.properties` file under `resources` folder. Original features are documented at https://sourceforge.net/p/soaprest-mocker/wiki/Home/#configuring-mocked-webservice-endpoints.
 
