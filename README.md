@@ -1,4 +1,4 @@
-# Http API Mock
+# Http API Mock ![Build status](https://circleci.com/gh/Mystes/http-api-mock.svg?style=shield&circle-token=eb4602f147bdd5cf4c64fb363e4f1df3da490313)
 This is work based on SOAP/REST Mock Service by Jacek Obrymski (https://sourceforge.net/projects/soaprest-mocker/).
 Original features are documented at https://sourceforge.net/p/soaprest-mocker/wiki/Home/.
 
