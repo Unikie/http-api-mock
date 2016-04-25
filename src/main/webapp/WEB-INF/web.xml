@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+
+     	Copyright (C) 2012 Jacek Obarymski
+
+     	This file is part of SOAP/REST Mock Servce.
+
+        SOAP/REST Mock Servce is free software; you can redistribute it and/or modify
+        it under the terms of the GNU Lesser General Public License as published by
+        the Free Software Foundation; either version 2 of the License, or
+        (at your option) any later version.
+
+        SOAP/REST Mock Servce is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU Lesser General Public License
+        along with SOAP/REST Mock Servce; if not, write to the Free Software
+        Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+-->
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<servlet>
+		<servlet-name>MockSvc</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>net.sf.jaceko.mock.application.MockserviceApplication</param-value>
+		</init-param>
+	</servlet>
+
+	
+	<servlet-mapping>
+		<servlet-name>MockSvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+
+</web-app>

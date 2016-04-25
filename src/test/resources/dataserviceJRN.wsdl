@@ -1,0 +1,171 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:tns="testJrnWsi/JRNWSIP/wsdl" xmlns:types="testJrnWsi/JRNWSIP/schema" targetNamespace="testJrnWsi/JRNWSIP/wsdl">
+ <wsdl:types>
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="testJrnWsi/JRNWSIP/schema" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+   <xs:element name="DataServiceVoid">
+    <xs:complexType>
+     <xs:sequence/>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="CDCQuery">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element name="SubscriberName" type="xs:string">
+       <xs:annotation>
+        <xs:documentation>CDC subscriber name</xs:documentation>
+       </xs:annotation>
+      </xs:element>
+      <xs:element name="MaxRowCount" type="xs:int" minOccurs="0">
+       <xs:annotation>
+        <xs:documentation>Maximum number of rows that the CDC query should return</xs:documentation>
+       </xs:annotation>
+      </xs:element>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="lockRequestElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:CDCQuery"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="lockResponseElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="unlockRequestElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:CDCQuery"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="unlockResponseElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="purgeRequestElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="purgeResponseElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="extendWindowRequestElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="extendWindowResponseElement">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="types:DataServiceVoid"/>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+  </xs:schema>
+ </wsdl:types>
+ <wsdl:message name="lockRequest">
+  <wsdl:part name="lockRequestPart" element="types:lockRequestElement"/>
+ </wsdl:message>
+ <wsdl:message name="lockResponse">
+  <wsdl:part name="lockResponsePart" element="types:lockResponseElement"/>
+ </wsdl:message>
+ <wsdl:message name="unlockRequest">
+  <wsdl:part name="unlockRequestPart" element="types:unlockRequestElement"/>
+ </wsdl:message>
+ <wsdl:message name="unlockResponse">
+  <wsdl:part name="unlockResponsePart" element="types:unlockResponseElement"/>
+ </wsdl:message>
+ <wsdl:message name="purgeRequest">
+  <wsdl:part name="purgeRequestPart" element="types:purgeRequestElement"/>
+ </wsdl:message>
+ <wsdl:message name="purgeResponse">
+  <wsdl:part name="purgeResponsePart" element="types:purgeResponseElement"/>
+ </wsdl:message>
+ <wsdl:message name="extendWindowRequest">
+  <wsdl:part name="extendWindowRequestPart" element="types:extendWindowRequestElement"/>
+ </wsdl:message>
+ <wsdl:message name="extendWindowResponse">
+  <wsdl:part name="extendWindowResponsePart" element="types:extendWindowResponseElement"/>
+ </wsdl:message>
+ <wsdl:portType name="JRNWSIPPortType">
+  <wsdl:operation name="lock">
+   <wsdl:input message="tns:lockRequest"/>
+   <wsdl:output message="tns:lockResponse"/>
+  </wsdl:operation>
+  <wsdl:operation name="unlock">
+   <wsdl:input message="tns:unlockRequest"/>
+   <wsdl:output message="tns:unlockResponse"/>
+  </wsdl:operation>
+  <wsdl:operation name="purge">
+   <wsdl:input message="tns:purgeRequest"/>
+   <wsdl:output message="tns:purgeResponse"/>
+  </wsdl:operation>
+  <wsdl:operation name="extendWindow">
+   <wsdl:input message="tns:extendWindowRequest"/>
+   <wsdl:output message="tns:extendWindowResponse"/>
+  </wsdl:operation>
+ </wsdl:portType>
+ <wsdl:binding name="JRNWSIPSoapBinding" type="tns:JRNWSIPPortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <wsdl:operation name="lock">
+   <soap:operation soapAction="lock"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+  <wsdl:operation name="unlock">
+   <soap:operation soapAction="unlock"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+  <wsdl:operation name="purge">
+   <soap:operation soapAction="purge"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+  <wsdl:operation name="extendWindow">
+   <soap:operation soapAction="extendWindow"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+ </wsdl:binding>
+ <wsdl:service name="JRNWSIP">
+  <wsdl:port binding="tns:JRNWSIPSoapBinding" name="JRNWSIPSoapPort">
+   <soap:address location="http://localhost:8080/mock/services/SOAP/dataserviceJRN/endpoint"/>
+  </wsdl:port>
+ </wsdl:service>
+</wsdl:definitions>

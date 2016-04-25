@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:hy="http://www.herongyang.com/Service/"
+  targetNamespace="http://www.herongyang.com/Service/">
+
+  <wsdl:documentation>
+    Reservation_WSDL_11_SOAP_11_Document.wsdl
+    Copyright (c) 2007 by Dr. Herong Yang, herongyang.com
+    All rights reserved
+  </wsdl:documentation>
+
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      targetNamespace="http://www.herongyang.com/Service/">
+      <xsd:element name="Reservation">
+        <xsd:complexType>
+          <xsd:complexContent mixed="true">
+            <xsd:restriction base="xsd:anyType">
+  
+          <xsd:sequence>
+            <xsd:element name="Member" type="xsd:string"/>
+            <xsd:element name="ItemList">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Item" type="xsd:string"
+                    maxOccurs="unbounded"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+
+            </xsd:restriction>
+          </xsd:complexContent>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ReservationResponse">
+        <xsd:complexType>
+          <xsd:complexContent mixed="true">
+            <xsd:restriction base="xsd:anyType">
+
+          <xsd:sequence>
+            <xsd:element name="Number" type="xsd:string"/>
+            <xsd:element name="Status" type="xsd:string" default="DefStatus"/>
+          </xsd:sequence>
+
+            </xsd:restriction>
+          </xsd:complexContent>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="reservationInputMessage">
+    <wsdl:part name="reservationInputPart"
+      element="hy:Reservation"/>
+  </wsdl:message>
+  <wsdl:message name="reservationOutputMessage">
+    <wsdl:part name="reservationOutputPart"
+      element="hy:ReservationResponse"/>
+  </wsdl:message>
+
+  <wsdl:portType name="reservationPortType">
+    <wsdl:operation name="Reservation">
+      <wsdl:input name="reservationInput"
+        message="hy:reservationInputMessage"/>
+      <wsdl:output name="reservationOutput"
+        message="hy:reservationOutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="reservationBinding"
+    type="hy:reservationPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Reservation">
+      <soap:operation style="document"
+        soapAction="http://www.herongyang.com/Service/Reservation"/>
+      <wsdl:input name="reservationInput">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reservationOutput">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="reservationService">
+    <wsdl:port name="reservationPort"
+      binding="hy:reservationBinding">
+      <soap:address location=
+        "http://www.herongyang.com/Service/Reservation.php"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

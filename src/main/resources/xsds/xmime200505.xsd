@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+
+
+        Copyright (C) 2012 Jacek Obarymski
+
+        This file is part of SOAP/REST Mock Service.
+
+        SOAP/REST Mock Service is free software; you can redistribute it and/or modify
+        it under the terms of the GNU Lesser General Public License, version 3
+        as published by the Free Software Foundation.
+
+        SOAP/REST Mock Service is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU Lesser General Public License for more details.
+
+        You should have received a copy of the GNU Lesser General Public License
+        along with SOAP/REST Mock Service; if not, write to the Free Software
+        Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://www.w3.org/2005/05/xmlmime">
+
+  <xs:attribute name="contentType">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="3"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+
+  <xs:attribute name="expectedContentTypes" type="xs:string"/>
+
+  <xs:complexType name="base64Binary">
+    <xs:simpleContent>
+        <xs:extension base="xs:base64Binary">
+            <xs:attribute ref="xmime:contentType"/>
+        </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="hexBinary">
+    <xs:simpleContent>
+        <xs:extension base="xs:hexBinary">
+            <xs:attribute ref="xmime:contentType"/>
+        </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>
