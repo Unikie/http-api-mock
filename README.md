@@ -1,4 +1,4 @@
-# Http API Mock ![Build status](https://circleci.com/gh/Mystes/http-api-mock.svg?style=shield&circle-token=eb4602f147bdd5cf4c64fb363e4f1df3da490313)
+# HTTP API Mock ![Build status](https://circleci.com/gh/Mystes/http-api-mock.svg?style=shield&circle-token=eb4602f147bdd5cf4c64fb363e4f1df3da490313)
 This is work based on SOAP/REST Mock Service by Jacek Obrymski (https://sourceforge.net/projects/soaprest-mocker/).
 Original features are documented at https://sourceforge.net/p/soaprest-mocker/wiki/Home/.
 
@@ -15,7 +15,7 @@ Original features are documented at https://sourceforge.net/p/soaprest-mocker/wi
 * Support for returning SOAP with attachment (binary).
 
 ## Usage
-With Http API Mock you can easily mock external (and internal if needed) interfaces. It's a good tool to be used for integration tests and also during development. With Http API Mock you can easily mock SOAP interfaces and also JSON/XML REST interfaces.
+With HTTP API Mock you can easily mock external (and internal if needed) interfaces. It's a good tool to be used for integration tests and also during development. With HTTP API Mock you can easily mock SOAP interfaces and also JSON/XML REST interfaces.
 Basic usage can be read from https://sourceforge.net/p/soaprest-mocker/wiki/Home/.
 
 ### Configuration
@@ -93,7 +93,7 @@ Configuration below uses Jetty as the container. It should be possible to use ot
 </plugin>
 ```
 
-You also need to add this part to your pom.xml. Here we define the public maven repository where Http API mock will be fetched during build process.
+You also need to add this part to your pom.xml. Here we define the public maven repository where HTTP API mock will be fetched during build process.
 ```xml
 <repositories>
     <repository>
@@ -238,7 +238,7 @@ Just add next OPERATION[j] definition incrementing [j] index.
 
 </table>
 
-#### Step 3. Start Http API Mock
+#### Step 3. Start HTTP API Mock
 
 If you are using Maven and Maven configuration above, you can manually start the HTTP API Mock service in your project by running:
 ```bash
@@ -246,7 +246,7 @@ mvn jetty:deploy-war
 ```
 Manually running the service is useful when developing code or integration tests using SoapUI client.
 
-#### Step 4. Use Http API Mock -services
+#### Step 4. Use HTTP API Mock -services
 Mock services can be invoked and controlled by REST API.
 
 | Action | URL | Notes |
@@ -264,7 +264,7 @@ Integration tests can be implemented for example with SoapUI (https://www.soapui
 
 #### SoapUI examples
 
-If you need some examples how to use Http API Mock with SoapUI, you can clone this git-project and open the example SoapUI-file `SoapRest-mock-soapui-project.xml` under `SoapUI` folder. To be able to run the test cases you must start the Http Api Mock service (in the cloned project):
+If you need some examples how to use HTTP API Mock with SoapUI, you can clone this git-project and open the example SoapUI-file `SoapRest-mock-soapui-project.xml` under `SoapUI` folder. To be able to run the test cases you must start the HTTP Api Mock service (in the cloned project):
 
 ```bash
 mvn jetty:deploy-war
