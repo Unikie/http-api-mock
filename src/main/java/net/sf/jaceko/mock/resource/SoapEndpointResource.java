@@ -19,12 +19,14 @@
  */
 package net.sf.jaceko.mock.resource;
 
+import net.sf.jaceko.mock.exception.ClientFaultException;
 import net.sf.jaceko.mock.model.request.MockResponse;
 import net.sf.jaceko.mock.service.MockConfigurationHolder;
 import net.sf.jaceko.mock.service.RequestExecutor;
 import net.sf.jaceko.mock.util.SOAPMessageParser;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartRelatedInput;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -32,6 +34,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.Map;
 
 @Path("/services/SOAP/{serviceName}/endpoint")
@@ -40,6 +43,31 @@ public class SoapEndpointResource {
 
     private RequestExecutor service;
     private MockConfigurationHolder configurationHolder;
+
+
+    @POST
+    @Consumes("multipart/related")
+    @Produces(MediaType.TEXT_XML)
+    public Response performRequest(@PathParam("serviceName") String serviceName, @Context HttpServletRequest httpServletRequest,
+                                   MultipartRelatedInput request, @Context HttpHeaders headers) {
+
+        // Currently ignores the binary part and only processes the soap part.
+        LOG.debug("serviceName: " + serviceName + ", multipart request.");
+
+        for (String inputPartKey : request.getRelatedMap().keySet()) {
+            InputPart part = request.getRelatedMap().get(inputPartKey);
+
+            if(part.getMediaType().getSubtype().contains("xop+xml")) {
+                try {
+                    return performRequest(serviceName, httpServletRequest, part.getBodyAsString(), headers);
+                } catch (IOException e) {
+                    throw new ClientFaultException("Could not parse the xml part.");
+                }
+            }
+        }
+
+        return null;
+    }
 
     @POST
     @Consumes({MediaType.TEXT_XML, "application/soap+xml", "application/xml"})
@@ -57,6 +85,7 @@ public class SoapEndpointResource {
             return buildWebserviceResponse(response);
         }
         LOG.debug("serviceName: " + serviceName + ", response:" + responseBody + " ,code: " + code);
+
         return null;
     }
 

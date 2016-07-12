@@ -3,6 +3,14 @@ package net.sf.jaceko.mock.it;
 import net.sf.jaceko.mock.dom.DocumentImpl;
 import net.sf.jaceko.mock.it.helper.request.HttpRequestSender;
 import net.sf.jaceko.mock.model.request.MockResponse;
+import org.apache.axiom.om.OMAbstractFactory;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.OMText;
+import org.apache.axis2.Constants;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.client.Options;
+import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.log4j.Logger;
 import org.hamcrest.CoreMatchers;
@@ -10,13 +18,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import sun.misc.BASE64Encoder;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,6 +34,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class SoapMockIntegrationTest {
 
@@ -265,5 +275,47 @@ public class SoapMockIntegrationTest {
         assertThat("Contains SOAP part", response.getBody(), containsString("<s:Envelope"));
         assertThat("Contains binary encoding part in body", response.getBody(), containsString("Content-Transfer-Encoding: binary"));
         assertThat("Contains octet-stream content type in body", response.getBody(), containsString("Content-Type: application/octet-stream"));
+    }
+
+    @Test
+    public void shouldAcceptMTOMRequest() throws Exception {
+        ServiceClient client = createClientForMTOMTest();
+        OMFactory factory = OMAbstractFactory.getOMFactory();
+
+        OMElement payload = factory.createOMElement(new QName("http://test-ns.org/ns/testing", "sayHello"));
+        OMElement binElement = factory.createOMElement(new QName("payload"));
+        OMText textNode = factory.createOMText(new BASE64Encoder().encode(new byte[] {1,2,1,2,3,4,1,2,3,4,1,1,5}), "application/octet-stream", true);
+        binElement.addChild(textNode);
+        payload.addChild(binElement);
+
+        OMElement response = client.sendReceive(payload);
+
+        assertEquals("Contains response element", response.getFirstElement().getLocalName(), "greeting");
+        assertEquals("Contains greeting text", response.getFirstElement().getText(), "Hello!!");
+    }
+
+    private ServiceClient createClientForMTOMTest() throws Exception {
+        String ns1 = "http://www.w3.org/2005/08/addressing";
+        ServiceClient client = new ServiceClient();
+        Options options = new Options();
+
+        client.addStringHeader(new QName(ns1, "Action"), "RandomAction");
+        client.addStringHeader(new QName(ns1, "To"), "Random");
+
+        OMElement replyTo = OMAbstractFactory.getOMFactory().createOMElement(new QName(ns1, "ReplyTo"));
+        OMElement address = OMAbstractFactory.getOMFactory().createOMElement(new QName(ns1, "Address"));
+
+        address.setText("http://www.w3.org/2005/08/addressing/anonymous");
+        replyTo.addChild(address);
+        client.addHeader(replyTo);
+
+
+        options.setTo(new EndpointReference(SOAP_MOCK_ENDPOINT));
+        options.setProperty(Constants.Configuration.ENABLE_MTOM, Constants.VALUE_TRUE);
+        options.setAction("mediate");
+
+        client.setOptions(options);
+
+        return client;
     }
 }
