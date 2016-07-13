@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fi.mystes</groupId>
     <artifactId>http-api-mock</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>war</packaging>
     <name>HTTP API Mock</name>
     <description>With HTTP API Mock you can easily mock external (and internal if needed) interfaces.</description>
