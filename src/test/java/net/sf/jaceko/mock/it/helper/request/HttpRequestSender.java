@@ -64,12 +64,12 @@ public class HttpRequestSender {
     }
     
     public MockResponse sendPostRequest(String url, String requestBody, String mediaType, Map<String,String> headers, List<RestAttachment> attachments) throws IOException {
-    	HttpEntityEnclosingRequestBase httpRequest = new HttpPost(url);
+        HttpEntityEnclosingRequestBase httpRequest = new HttpPost(url);
         addRequestBody(httpRequest, requestBody, mediaType, attachments);
         return executeRequest(httpRequest, headers);
     }
 
-	public MockResponse sendPutRequest(String url, String requestBody, String mediaType) throws
+    public MockResponse sendPutRequest(String url, String requestBody, String mediaType) throws
             IOException {
         return sendPutRequest(url, requestBody, mediaType, new HashMap<String, String>());
     }
@@ -114,21 +114,21 @@ public class HttpRequestSender {
     }
     
     public static final class RestAttachment {
-    	private final String mediaType;
-    	private final byte[] binaryContent;
-    	
-		public RestAttachment(String mediaType, byte[] binaryContent) {
-			this.mediaType = mediaType;
-			this.binaryContent = binaryContent;
-		}
+        private final String mediaType;
+        private final byte[] binaryContent;
 
-		public String getMediaType() {
-			return mediaType;
-		}
+        public RestAttachment(String mediaType, byte[] binaryContent) {
+            this.mediaType = mediaType;
+            this.binaryContent = binaryContent;
+        }
 
-		public byte[] getBinaryContent() {
-			return binaryContent;
-		}		
+        public String getMediaType() {
+            return mediaType;
+        }
+
+        public byte[] getBinaryContent() {
+            return binaryContent;
+        }
     }
     
     private MockResponse executeRequest(HttpRequestBase httpRequest, boolean binary) throws IOException {
