@@ -40,7 +40,7 @@ Configuration below uses Jetty as the container. It should be possible to use ot
                     <artifactItem>
                         <groupId>fi.mystes</groupId>
                         <artifactId>http-api-mock</artifactId>
-                        <version>1.0.0</version>
+                        <version>1.1.0</version>
                         <type>war</type>
                     </artifactItem>
                 </artifactItems>
